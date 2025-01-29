@@ -1,8 +1,11 @@
 import React from 'react'
+import HomePage from '../Components/UserHomeComp/HomePage'
 
 function Home() {
   return (
-    <div>Welcome to Home :)</div>
+    <div>
+        < HomePage />
+    </div>
   )
 }
 

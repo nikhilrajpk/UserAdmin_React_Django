@@ -18,16 +18,24 @@ const router = createBrowserRouter([
     children : [
       {
         path : '/',
-        element : < UserLogin />
+        element : (
+          < ProtectedRoute authentication={false} >
+            < UserLogin />
+          </ProtectedRoute>
+        )
       },
       {
         path : '/signup',
-        element : < UserSignup />
+        element : (
+          < ProtectedRoute authentication={false} >
+            < UserSignup />
+          </ProtectedRoute>
+        )
       },
       {
         path : '/user-home',
         element : ( 
-          < ProtectedRoute > 
+          < ProtectedRoute authentication > 
             < Home /> 
           </ProtectedRoute> 
         )

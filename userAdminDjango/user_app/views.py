@@ -28,6 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
         password = validated_data.pop('password') 
         user = get_user_model().objects.create(**validated_data)
         user.set_password(password)
+        user.is_active = True
         user.save()
         return user
     
@@ -62,7 +63,6 @@ class LoginUserView(APIView):
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(username=username, password=password)
-
         if user is not None:
             userDetails = CustomUser.objects.get(username = user.username)
             # Generate JWT tokens

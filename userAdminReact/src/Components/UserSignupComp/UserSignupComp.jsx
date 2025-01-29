@@ -3,7 +3,7 @@ import Input from '../Input';
 import InputValidation from '../InputValidation';
 import Button from '../Button';
 import { register } from '../../API/authApi';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function UserSignupComp() {
@@ -84,6 +84,8 @@ function UserSignupComp() {
         address: '',
         user_profile: undefined,
       });
+      alert('Registered successfully :)')
+      navigate('/')
     } catch (error) {
         const errorResponse = error.response?.data; // Extract error data from response
       
@@ -110,6 +112,9 @@ function UserSignupComp() {
           ))}
         </ul>
       )}
+
+      <h2>User Signup</h2>
+
       <form encType="multipart/form-data" onSubmit={submitHandle} style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
 
         <Input name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
@@ -129,6 +134,7 @@ function UserSignupComp() {
         />
         <Button type="submit" label="Register" />
       </form>
+      <p>Already have an account?&nbsp; <Link to={'/'} >Login</Link></p>
     </div>
   );
 }

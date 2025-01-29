@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { userLogin } from '../../API/authApi'
 import { login } from '../../slices/userSlice'
 import { useDispatch } from 'react-redux'
@@ -33,6 +33,13 @@ function UserLoginComp() {
               username : user.username,
               password : user.password,
             })
+
+            // if not admin then only allowing user to userHome.
+            if(data.userDetails.is_staff){
+                alert('Admin cannot login to the user page :(')
+                // need to redirect to admin login.
+                
+            }
       
             if (data.access && data.refresh) {
                 localStorage.setItem('access', data.access);
@@ -44,7 +51,9 @@ function UserLoginComp() {
                 
                 setErrors('')
                 alert('Login successful');
-                navigate('/');
+
+                navigate('/user-home');
+
             } else {
               throw new Error('Tokens missing in response');
             }
@@ -69,6 +78,8 @@ function UserLoginComp() {
             </ul>
         )}
 
+        <h2>User Login</h2>
+
         <form encType="multipart/form-data" onSubmit={submitHandle} style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
 
             <Input name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
@@ -76,6 +87,7 @@ function UserLoginComp() {
             
             <Button type="submit" label="Login" />
         </form>
+        <p>Don&apos;t have an account?&nbsp; <Link to={'/signup'} >Create Account</Link></p>
     </div>
   )
 }

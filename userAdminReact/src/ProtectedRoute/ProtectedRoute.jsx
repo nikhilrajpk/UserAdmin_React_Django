@@ -2,17 +2,19 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-function ProtectedRoute({children}) {
+function ProtectedRoute({children, authentication=true}) {
     const navigate = useNavigate()
 
-    const isAuthenticated = useSelector((state) => state.isAuthenticated)
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
     useEffect(()=>{
 
         // navigate to login page is not authenticated
-        if (!isAuthenticated){
+        if (authentication && !isAuthenticated){
             navigate('/')
+        }else if (!authentication && isAuthenticated){
+            navigate('/user-home')
         }
-    }, [navigate, isAuthenticated])
+    }, [navigate, isAuthenticated, authentication])
 
     return children
 }
