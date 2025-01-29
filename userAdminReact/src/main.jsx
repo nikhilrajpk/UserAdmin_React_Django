@@ -10,6 +10,7 @@ import UserSignup from './pages/UserSignup.jsx'
 import UserLogin from './pages/UserLogin.jsx'
 import Home from './pages/Home.jsx'
 import Profile from './pages/Profile.jsx'
+import EditProfile from './pages/EditProfile.jsx'
 
 
 const router = createBrowserRouter([
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
         element : (
           < ProtectedRoute authentication >
             < Profile />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path : '/update-profile',
+        element : (
+          < ProtectedRoute authentication >
+            < EditProfile />
           </ProtectedRoute>
         )
       }

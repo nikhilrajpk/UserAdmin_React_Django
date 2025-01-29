@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 
 function UserProfileComp() {
     const userDetails = useSelector((state)=> state.user.user)
-    console.log(userDetails)
 
   return (
     <div className='user_profile_container'>
@@ -24,7 +23,7 @@ function UserProfileComp() {
                 <h4>Address : {userDetails?.address}</h4> <hr />
             </div>
         }
-        < Link >
+        < Link to={'/update-profile'} >
             < Button type={'button'} label={'Edit Profile'} />
         </Link>
     </div>

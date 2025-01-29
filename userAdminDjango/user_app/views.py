@@ -75,3 +75,36 @@ class LoginUserView(APIView):
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class UpdateUserView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+    authentication_classes = [JWTAuthentication]
+    
+    def put(self, request, pk, *args, **kwargs):
+        try :
+            user = CustomUser.objects.get(id=pk)
+            
+            data = request.data.copy()
+            
+            if 'user_profile' not in data or data['user_profile'] == 'null' :
+                data.pop('user_profile', None)
+                
+            serializer = UserSerializer(user, data, partial = True)
+            
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
+        except CustomUser.DoesNotExist:
+            return Response(
+                {"error": "User not found or you do not have permission to edit this user"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+            
+        except Exception as e:
+            return Response(
+                {"error": f"Failed to update user: {str(e)}"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
