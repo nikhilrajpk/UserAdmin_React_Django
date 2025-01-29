@@ -7,6 +7,7 @@ import {Provider} from 'react-redux'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute.jsx'
 import Loader from './utils/Loader/Loader.jsx'
+// import AdminLogin from './pages/AdminLogin.jsx'
 // import UserSignup from './pages/UserSignup.jsx'
 // import UserLogin from './pages/UserLogin.jsx'
 // import Home from './pages/Home.jsx'
@@ -18,7 +19,8 @@ const UserLogin = React.lazy(()=> import('./pages/UserLogin.jsx'))
 const Home = React.lazy(()=> import('./pages/Home.jsx')) 
 const Profile = React.lazy(()=> import('./pages/Profile.jsx')) 
 const EditProfile = React.lazy(()=> import('./pages/EditProfile.jsx')) 
-
+const AdminLogin = React.lazy(()=> import('./pages/AdminLogin.jsx'))
+const AdminHome = React.lazy(()=> import('./pages/AdminHome.jsx'))
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,22 @@ const router = createBrowserRouter([
         element : (
           < ProtectedRoute authentication >
             < EditProfile />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path : '/admin-login',
+        element : (
+          < ProtectedRoute authentication={false} >
+            < AdminLogin />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path : '/admin-home',
+        element : (
+          < ProtectedRoute authentication >
+            < AdminHome />
           </ProtectedRoute>
         )
       }

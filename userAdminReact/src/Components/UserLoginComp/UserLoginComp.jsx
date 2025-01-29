@@ -40,8 +40,7 @@ function UserLoginComp() {
             // if not admin then only allowing user to userHome.
             if(data.userDetails.is_staff){
                 alert('Admin cannot login to the user page :(')
-                // need to redirect to admin login.
-                
+                return
             }
       
             if (data.access && data.refresh) {
@@ -94,6 +93,7 @@ function UserLoginComp() {
             <Button type="submit" label="Login" />
         </form>
         <p>Don&apos;t have an account?&nbsp; <Link to={'/signup'} >Create Account</Link></p>
+        <p>Are you an admin?&nbsp; <Link to={'/admin-login'} >Admin Login</Link></p>
       </div>
     </div>
   )

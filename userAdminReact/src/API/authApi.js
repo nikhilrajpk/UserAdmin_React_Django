@@ -35,3 +35,14 @@ export const updateProfile = async (userId, formData) =>{
         throw err;
     }
 }
+
+export const getAllUser = async () =>{
+    try{
+        const response = await axiosInstance.get(`api/users/`)
+
+        return response.data
+    }catch(error){
+        console.error('Error on retrieving users data : ', error.response?.data || error);
+        throw error
+    }
+}

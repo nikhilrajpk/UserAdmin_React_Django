@@ -5,16 +5,20 @@ import { useNavigate } from 'react-router-dom'
 function ProtectedRoute({children, authentication=true}) {
     const navigate = useNavigate()
 
-    const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+    const {isAuthenticated, user} = useSelector((state) => state.user)
     useEffect(()=>{
 
         // navigate to login page is not authenticated
         if (authentication && !isAuthenticated){
             navigate('/')
         }else if (!authentication && isAuthenticated){
-            navigate('/user-home')
+            if(user?.is_staff){
+                navigate('/admin-home')
+            }else{
+                navigate('/user-home')
+            }
         }
-    }, [navigate, isAuthenticated, authentication])
+    }, [navigate, isAuthenticated, authentication, user])
 
     return children
 }

@@ -38,6 +38,14 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
     
+    def list(self, request):
+        try : 
+            users = CustomUser.objects.all()
+            serializer = UserSerializer(users, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error" : f"Error in fetching users data {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+    
     
 # User Registration View
 class RegisterUserView(APIView):

@@ -1,0 +1,19 @@
+.admin_login_container{
+    min-width: 100%;
+    min-height: 100vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.admin_login_form_div{
+    width: fit-content;
+}
+.admin_login_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem;
+}

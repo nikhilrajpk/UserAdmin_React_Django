@@ -1,0 +1,9 @@
+.admin_header{
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 3px solid #faedcd;
+    margin-bottom: 15px;
+}
