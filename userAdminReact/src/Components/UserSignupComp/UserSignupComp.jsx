@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './UserSignupComp.css'
 import Input from '../Input';
 import InputValidation from '../InputValidation';
 import Button from '../Button';
@@ -104,37 +105,39 @@ function UserSignupComp() {
   };
 
   return (
-    <div>
-      {Array.isArray(errors) && errors.length > 0 && (
-        <ul style={{ color: 'red' }}>
-          {errors.map((error, i) => (
-            <li key={i}>{error}</li>
-          ))}
-        </ul>
-      )}
+    <div className='signup_container'>
+      <div className='signup_form_div'>
+        {Array.isArray(errors) && errors.length > 0 && (
+          <ul style={{ color: 'red' }}>
+            {errors.map((error, i) => (
+              <li key={i}>{error}</li>
+            ))}
+          </ul>
+        )}
 
-      <h2>User Signup</h2>
+        <h2>User Signup</h2>
 
-      <form encType="multipart/form-data" onSubmit={submitHandle} style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
+        <form encType="multipart/form-data" onSubmit={submitHandle} className='signup_form'>
 
-        <Input name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
-        <Input name="email" type="email" placeholder="Enter the email" onChangeHandle={onChangeHandle} />
-        <Input name="first_name" type="text" placeholder="Enter the first name" onChangeHandle={onChangeHandle} />
-        <Input name="last_name" type="text" placeholder="Enter the last name" onChangeHandle={onChangeHandle} />
-        <Input name="password" type="password" placeholder="Enter the password" onChangeHandle={onChangeHandle} />
-        <Input name="confirm_password" type="password" placeholder="Confirm password" onChangeHandle={onChangeHandle} />
-        <Input name="phone" type="text" placeholder="Enter the phone" onChangeHandle={onChangeHandle} />
-        <Input name="address" type="text" placeholder="Enter the address" onChangeHandle={onChangeHandle} />
-        <Input
-          name="user_profile"
-          type="file"
-          placeholder="Upload profile picture"
-          onChangeHandle={onChangeHandle}
-          props={{ accept: '.png,.jpeg,.jpg' }}
-        />
-        <Button type="submit" label="Register" />
-      </form>
-      <p>Already have an account?&nbsp; <Link to={'/'} >Login</Link></p>
+          <Input name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
+          <Input name="email" type="email" placeholder="Enter the email" onChangeHandle={onChangeHandle} />
+          <Input name="first_name" type="text" placeholder="Enter the first name" onChangeHandle={onChangeHandle} />
+          <Input name="last_name" type="text" placeholder="Enter the last name" onChangeHandle={onChangeHandle} />
+          <Input name="password" type="password" placeholder="Enter the password" onChangeHandle={onChangeHandle} />
+          <Input name="confirm_password" type="password" placeholder="Confirm password" onChangeHandle={onChangeHandle} />
+          <Input name="phone" type="text" placeholder="Enter the phone" onChangeHandle={onChangeHandle} />
+          <Input name="address" type="text" placeholder="Enter the address" onChangeHandle={onChangeHandle} />
+          <Input
+            name="user_profile"
+            type="file"
+            placeholder="Upload profile picture"
+            onChangeHandle={onChangeHandle}
+            props={{ accept: '.png,.jpeg,.jpg' }}
+          />
+          <Button type="submit" label="Register" />
+        </form>
+        <p>Already have an account?&nbsp; <Link to={'/'} >Login</Link></p>
+      </div>
     </div>
   );
 }

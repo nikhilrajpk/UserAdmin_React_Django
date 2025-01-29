@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './UserLoginComp.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { userLogin } from '../../API/authApi'
 import { login } from '../../slices/userSlice'
@@ -47,7 +48,7 @@ function UserLoginComp() {
                 console.log('User details:', data.userDetails); 
         
                 //   storing user data in redux store
-                dispatch((login({user : data.userDetails, token : data.access })))
+                dispatch(login({user : data.userDetails, token : data.access }))
                 
                 setErrors('')
                 alert('Login successful');
@@ -69,7 +70,8 @@ function UserLoginComp() {
     }
 
   return (
-    <div>
+    <div className='login_container'>
+      <div className='login_form_div'>
         {Array.isArray(errors) && errors.length > 0 && (
             <ul style={{ color: 'red' }}>
             {errors.map((error, i) => (
@@ -80,7 +82,7 @@ function UserLoginComp() {
 
         <h2>User Login</h2>
 
-        <form encType="multipart/form-data" onSubmit={submitHandle} style={{display:'flex', flexDirection:'column', gap:'1rem'}}>
+        <form encType="multipart/form-data" onSubmit={submitHandle} className='login_form'>
 
             <Input name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
             <Input name="password" type="password" placeholder="Enter the password" onChangeHandle={onChangeHandle} />
@@ -88,6 +90,7 @@ function UserLoginComp() {
             <Button type="submit" label="Login" />
         </form>
         <p>Don&apos;t have an account?&nbsp; <Link to={'/signup'} >Create Account</Link></p>
+      </div>
     </div>
   )
 }

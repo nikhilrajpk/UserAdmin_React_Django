@@ -1,0 +1,19 @@
+.signup_container{
+    min-width: 100%;
+    min-height: 100vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.signup_form_div{
+    width: fit-content;
+}
+.signup_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: .7rem;
+    margin: .5rem;
+}

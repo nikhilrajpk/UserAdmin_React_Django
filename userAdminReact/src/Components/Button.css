@@ -1,0 +1,17 @@
+.btn {
+    width: 10rem;
+    height: 3rem;
+    background-color: #fff;
+    color: #0a0908;
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    font-size: larger;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    transition: all ease-in-out .3s;
+}
+.btn:hover{
+    background-color: #faedcd;
+}

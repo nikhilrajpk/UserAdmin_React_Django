@@ -1,11 +1,21 @@
 import React from 'react'
+import './Header.css'
 import Logout from '../Logout'
+import { Link } from 'react-router-dom'
 
 function Header() {
   return (
-    <div style={{position:'fixed', top:'1rem'}}>
-        < Logout />
-    </div>
+    <header className='header'>
+        < Link to={'/user-home'} >
+            <h2>HOME</h2>
+        </Link>
+        <div className='right_top'>
+          < Link to={'/user-profile'}>
+              <h1 className='profile_btn'>👤</h1>
+          </Link>
+          < Logout />
+        </div>
+    </header>
   )
 }
 

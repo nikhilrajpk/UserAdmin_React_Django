@@ -1,4 +1,5 @@
 import React from 'react'
+import './Input.css'
 
 function Input({name, type, placeholder, value=undefined, onChangeHandle, isRequired=true, props}) {
   return (
@@ -10,6 +11,7 @@ function Input({name, type, placeholder, value=undefined, onChangeHandle, isRequ
      onChange={(e) => onChangeHandle(e)}  
      required={isRequired}
      {...props}
+     className='input_field'
     />
   )
 }
