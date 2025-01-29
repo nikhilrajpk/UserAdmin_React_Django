@@ -8,12 +8,14 @@ import { updateProfile } from '../../API/authApi';
 import { Link, useNavigate } from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux'
 import { login } from '../../slices/userSlice';
+import Loader from '../../utils/Loader/Loader'
 
 function UserProfileUpdateComp() {
     const userData = useSelector((state)=> state.user.user)
     const token = useSelector((state)=> state.user.token)
     const dispatch = useDispatch()
 
+    const [loading, setLoading] = useState(false)
     const [user, setUser] = useState({
     username: userData?.username,
     email: userData?.email,
@@ -75,6 +77,7 @@ function UserProfileUpdateComp() {
         }
 
         try {
+            setLoading(true)
             const response = await updateProfile(userData.id, formData);
             
             setErrors([]);
@@ -95,10 +98,12 @@ function UserProfileUpdateComp() {
             } else {
                 setErrors(['An unexpected error occurred. Please try again later.']);
             }
+        }finally{
+            setLoading(false)
         }
     };
 
-    return (
+    return loading ? < Loader /> : (
     <div className='update_container'>
         <div className='update_form_div'>
         {Array.isArray(errors) && errors.length > 0 && (

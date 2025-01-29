@@ -5,6 +5,7 @@ import InputValidation from '../InputValidation';
 import Button from '../Button';
 import { register } from '../../API/authApi';
 import { Link, useNavigate } from 'react-router-dom';
+import Loader from '../../utils/Loader/Loader';
 
 
 function UserSignupComp() {
@@ -21,7 +22,7 @@ function UserSignupComp() {
   });
 
   const navigate = useNavigate()
-
+  const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState([]);
 
   const onChangeHandle = (e) => {
@@ -71,6 +72,7 @@ function UserSignupComp() {
     }
 
     try {
+      setLoading(true)
       const response = await register(formData);
       console.log('User registered successfully', response);
       setErrors([]);
@@ -101,10 +103,12 @@ function UserSignupComp() {
         } else {
           setErrors(['An unexpected error occurred. Please try again later.']);
         }
+      }finally{
+        setLoading(false)
       }
   };
 
-  return (
+  return loading ? < Loader /> : (
     <div className='signup_container'>
       <div className='signup_form_div'>
         {Array.isArray(errors) && errors.length > 0 && (

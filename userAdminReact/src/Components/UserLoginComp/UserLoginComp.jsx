@@ -6,17 +6,18 @@ import { login } from '../../slices/userSlice'
 import { useDispatch } from 'react-redux'
 import Input from '../Input'
 import Button from '../Button'
+import Loader from '../../utils/Loader/Loader'
 
 function UserLoginComp() {
     const [user, setUser] = useState({
         username : '',
         password : '',
     })
-
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [errors, setErrors] = useState()
+    const [errors, setErrors] = useState('')
 
     const onChangeHandle = (e) =>{
         const {name, value} = e.target;
@@ -28,6 +29,7 @@ function UserLoginComp() {
         e.preventDefault()
 
         try{
+            setLoading(true)
             console.log('credentials', user.username, user.password)
       
             const data = await userLogin({
@@ -65,11 +67,13 @@ function UserLoginComp() {
             .join(', '); 
       
             console.error('Error during registration:', errorMessage);
-            setErrors(errorMessage + ' ' + 'Username or password is incorrect!'); 
+            setErrors([errorMessage + ' ' + 'Username or password is incorrect!']); 
+          }finally{
+            setLoading(false)
           } 
     }
 
-  return (
+  return loading ? < Loader /> : (
     <div className='login_container'>
       <div className='login_form_div'>
         {Array.isArray(errors) && errors.length > 0 && (
@@ -84,7 +88,7 @@ function UserLoginComp() {
 
         <form encType="multipart/form-data" onSubmit={submitHandle} className='login_form'>
 
-            <Input name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
+            <Input value={user.username} name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
             <Input name="password" type="password" placeholder="Enter the password" onChangeHandle={onChangeHandle} />
             
             <Button type="submit" label="Login" />

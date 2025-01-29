@@ -14,3 +14,7 @@ a {
 a:hover{
   color: rgb(44, 52, 207) ;
 }
+li{
+  text-decoration: none;
+  list-style: none;
+}
