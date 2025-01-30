@@ -73,7 +73,7 @@ function AdminCreateUser() {
         try {
             setLoading(true)
             const response = await register(formData);
-            console.log('New user created successfully', response);
+            // console.log('New user created successfully', response);
             setErrors([]);
             setUser({
             username: '',

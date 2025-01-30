@@ -70,7 +70,13 @@ function AdminHomeComp() {
   return loading ? < Loader /> : (
     <div className='admin-container'>
         < AdminHeaderComp value={search} onChangeHandle={onChangeHandle} />
-        <h1 className="admin-title">Admin Dashboard - Users</h1>
+        <div className='admin-title-div'>
+          <h1 className="admin-title">Admin Dashboard - Users</h1>
+
+          < Link to={'/admin-user-signup'} >
+            < Button label={'Add User'} type={'button'} />
+          </Link>
+        </div>
 
         <div className="table-container">
           <table border="1" className='user-table'>

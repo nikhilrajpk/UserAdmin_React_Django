@@ -48,3 +48,9 @@
     object-fit: contain;
     background-color: #ddd;
 }
+.admin-title-div{
+  display: flex;
+  justify-content: space-between;
+  padding-left: 30%;
+  padding-right: 5.1%;
+}

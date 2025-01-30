@@ -74,7 +74,7 @@ function UserSignupComp() {
     try {
       setLoading(true)
       const response = await register(formData);
-      console.log('User registered successfully', response);
+      // console.log('User registered successfully', response);
       setErrors([]);
       setUser({
         username: '',
