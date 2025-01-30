@@ -1,61 +1,91 @@
 
-import React, { useState } from 'react';
-import './UserProfileUpdateComp.css'
+import { useEffect, useState } from 'react';
+import './AdminUserUpdateComp.css'
 import Input from '../Input';
 import InputValidation from '../InputValidation';
 import Button from '../Button';
 import { updateProfile } from '../../API/authApi';
-import { Link, useNavigate } from 'react-router-dom';
-import {useSelector, useDispatch} from 'react-redux'
-import { login } from '../../slices/userSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../utils/Loader/Loader'
+import { getUser } from '../../API/authApi';
 
-function UserProfileUpdateComp() {
-    const userData = useSelector((state)=> state.user.user)
-    const token = useSelector((state)=> state.user.token)
-    const dispatch = useDispatch()
+function AdminUserUpdateComp() {
+    
+    const {userId} = useParams()
+    const cleanedUserId = userId.replace(':', '')
+
+    const [userData, setUserData] = useState(null)
+    useEffect(()=>{
+        const fetchUser = async ()=>{
+            try {
+                const response = await getUser(cleanedUserId)
+                setUserData(response.data)
+            } catch (error) {
+                console.log('Error during fetching user data :: AdminUserUpdateComp ::', error.response?.data)
+            }
+        }
+
+        if(cleanedUserId){
+            fetchUser()
+        }
+    },[cleanedUserId])
+
+    const [user, setUser] = useState({
+        username: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        phone: "",
+        address: "",
+        user_profile: "",
+    });
+
+    useEffect(() => {
+        if (userData) {
+            setUser({
+                username: userData?.username || "",
+                email: userData?.email || "",
+                first_name: userData?.first_name || "",
+                last_name: userData?.last_name || "",
+                phone: userData?.phone || "",
+                address: userData?.address || "",
+                user_profile: userData?.user_profile || "",
+            });
+        }
+    }, [userData]);
 
     const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState({
-    username: userData?.username,
-    email: userData?.email,
-    first_name: userData?.first_name,
-    last_name: userData?.last_name,
-    phone: userData?.phone,
-    address: userData?.address,
-    user_profile: userData?.user_profile,
-    });
 
     const navigate = useNavigate()
 
     const [errors, setErrors] = useState([]);
 
     const onChangeHandle = (e) => {
-    const { name, value, files } = e.target;
-    
-    if (name === 'user_profile' && files.length > 0) {
-        setUser((prevState) => ({
-            ...prevState,
-            user_profile: files[0], 
-        }));
-        return;
-    }
+        const { name, value, files } = e.target;
+        
+        if (name === 'user_profile' && files.length > 0) {
+            setUser((prevState) => ({
+                ...prevState,
+                user_profile: files[0], 
+            }));
+            return;
+        }
 
-    // Validate the input
-    const fieldErrors = InputValidation(name, value);
-    
-    setErrors((prevErrors) => {
-        // Remove all errors related to the current field
-        const filteredErrors = prevErrors.filter(
-        (error) => !error.toLowerCase().includes(name.toLowerCase())
-        );
-    
-        // Return updated errors, including the new ones
-        return [...filteredErrors, ...fieldErrors];
-    });
-    
-    // Update the user's state
-    setUser((prevState) => ({ ...prevState, [name]: value }));
+        // Validate the input
+        const fieldErrors = InputValidation(name, value);
+        
+        setErrors((prevErrors) => {
+            // Remove all errors related to the current field
+            const filteredErrors = prevErrors.filter(
+            (error) => !error.toLowerCase().includes(name.toLowerCase())
+            );
+        
+            // Return updated errors, including the new ones
+            return [...filteredErrors, ...fieldErrors];
+        });
+        
+        // Update the user's state
+        setUser((prevState) => ({ ...prevState, [name]: value }));
     };
     
     
@@ -78,12 +108,11 @@ function UserProfileUpdateComp() {
 
         try {
             setLoading(true)
-            const response = await updateProfile(userData.id, formData);
+            await updateProfile(cleanedUserId, formData);
             
             setErrors([]);
-            alert('Profile updated successfully :)')
-            dispatch(login({user: response, token : token}))
-            navigate('/user-profile')
+            alert('User updated successfully :)')
+            navigate('/admin-home')
         } catch (error) {
             const errorResponse = error.response?.data; // Extract error data from response
             
@@ -93,7 +122,7 @@ function UserProfileUpdateComp() {
                 .map(([field, messages]) => `${field}: ${messages.join(', ')}`)
                 .join('\n');
             
-                console.error('Error during updating profile:', errorMessages);
+                console.error('Error during updating user:', errorMessages);
                 setErrors(errorMessages.split('\n')); // Set errors as an array of strings
             } else {
                 setErrors(['An unexpected error occurred. Please try again later.']);
@@ -104,8 +133,8 @@ function UserProfileUpdateComp() {
     };
 
     return loading ? < Loader /> : (
-    <div className='update_container'>
-        <div className='update_form_div'>
+    <div className='admin_update_container'>
+        <div className='admin_update_form_div'>
         {Array.isArray(errors) && errors.length > 0 && (
             <ul style={{ color: 'red' }}>
             {errors.map((error, i) => (
@@ -116,7 +145,7 @@ function UserProfileUpdateComp() {
 
         <h2>User Signup</h2>
 
-        <form encType="multipart/form-data" onSubmit={submitHandle} className='update_form'>
+        <form encType="multipart/form-data" onSubmit={submitHandle} className='admin_update_form'>
 
             <Input value={user?.username} name="username" type="text" placeholder="Enter the username" onChangeHandle={onChangeHandle} />
             <Input value={user?.email} name="email" type="email" placeholder="Enter the email" onChangeHandle={onChangeHandle} />
@@ -134,12 +163,12 @@ function UserProfileUpdateComp() {
             isRequired={false}
             />
 
-            <img className='update_form_img_preview'
+            <img className='admin_update_form_img_preview'
             src={`http://127.0.0.1:8000${userData?.user_profile}`}
             alt={userData?.username} 
             />
 
-            <Button type={"submit"} label={"Edit"} />
+            <Button type={'submit'} label={"Edit"} />
         </form>
         </div>
     </div>
@@ -147,4 +176,4 @@ function UserProfileUpdateComp() {
 }
     
 
-export default UserProfileUpdateComp
+export default AdminUserUpdateComp

@@ -46,6 +46,16 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"error" : f"Error in fetching users data {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     
+    def retrieve(self, request, pk=None):
+        try :
+            user = CustomUser.objects.get(id=pk)
+            print("user :: ", user)
+            serializer = UserSerializer(user)
+            print("serializer :: ", serializer)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error' : f"Error in fetching user data {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+    
     
 # User Registration View
 class RegisterUserView(APIView):

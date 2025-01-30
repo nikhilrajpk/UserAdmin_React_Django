@@ -46,3 +46,13 @@ export const getAllUser = async () =>{
         throw error
     }
 }
+
+export const getUser = async (userId) =>{
+    try{
+        const response = axiosInstance.get(`api/users/${userId}/`)
+        return response
+    }catch(error){
+        console.error('Error on retrieving user data : ', error.response?.data || error)
+        throw error
+    }
+}

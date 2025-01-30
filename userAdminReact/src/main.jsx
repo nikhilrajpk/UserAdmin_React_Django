@@ -21,6 +21,7 @@ const Profile = React.lazy(()=> import('./pages/Profile.jsx'))
 const EditProfile = React.lazy(()=> import('./pages/EditProfile.jsx')) 
 const AdminLogin = React.lazy(()=> import('./pages/AdminLogin.jsx'))
 const AdminHome = React.lazy(()=> import('./pages/AdminHome.jsx'))
+const AdminUserUpdate = React.lazy(()=> import('./pages/AdminUserUpdate.jsx'))
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,14 @@ const router = createBrowserRouter([
         element : (
           < ProtectedRoute authentication >
             < AdminHome />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path : '/admin-user-update/:userId',
+        element : (
+          < ProtectedRoute authentication >
+            < AdminUserUpdate />
           </ProtectedRoute>
         )
       }

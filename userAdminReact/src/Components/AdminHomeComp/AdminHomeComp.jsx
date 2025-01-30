@@ -4,6 +4,7 @@ import AdminHeaderComp from '../AdminHeaderComp/AdminHeaderComp'
 import { getAllUser } from '../../API/authApi'
 import Loader from '../../utils/Loader/Loader'
 import Button from '../Button'
+import { Link } from 'react-router-dom'
 
 function AdminHomeComp() {
   const [loading, setLoading] = useState(false)
@@ -81,7 +82,11 @@ function AdminHomeComp() {
                     <td>{user.last_name}</td>
                     <td>{user.phone}</td>
                     <td>{user.address}</td>
-                    <td><Button label={'Edit'} type={'button'} /></td>
+                    <td>
+                      < Link to={`/admin-user-update/:${user.id}`} >
+                        <Button label={'Edit'} type={'button'} />
+                      </Link>
+                    </td>
                     <td><Button label={'Remove'} type={'button'} /></td>
                   </tr>
                   )
