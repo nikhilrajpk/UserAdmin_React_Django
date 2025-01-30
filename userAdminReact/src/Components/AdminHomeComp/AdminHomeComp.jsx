@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import './AdminHomeComp.css'
 import AdminHeaderComp from '../AdminHeaderComp/AdminHeaderComp'
-import { getAllUser } from '../../API/authApi'
+import { getAllUser, removeUser } from '../../API/authApi'
 import Loader from '../../utils/Loader/Loader'
 import Button from '../Button'
 import { Link } from 'react-router-dom'
@@ -43,6 +43,29 @@ function AdminHomeComp() {
        user.email.toLowerCase().includes(search.toLowerCase()))
     );
   }, [search, users]);
+
+  const onRemoveHandle = useCallback((userId)=>{
+    const removeUserHandle = async ()=>{
+      const result = confirm('Are you sure you want to delete this user?')
+      if(result){
+        try {
+          setLoading(true)
+          const response = await removeUser(userId)
+          alert(response?.data?.message || 'User deleted successfully');
+        
+          // Updating the users state to remove the deleted user from the list
+          setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
+        } catch (error) {
+          console.log(error);
+          alert(error.response?.data?.error || 'Failed to delete user');
+        }finally{
+          setLoading(false)
+        }
+      }
+    }
+
+    removeUserHandle()
+  },[])
 
   return loading ? < Loader /> : (
     <div className='admin-container'>
@@ -87,7 +110,7 @@ function AdminHomeComp() {
                         <Button label={'Edit'} type={'button'} />
                       </Link>
                     </td>
-                    <td><Button label={'Remove'} type={'button'} /></td>
+                    <td><Button label={'Remove'} type={'button'} onClickHandle={()=> onRemoveHandle(user.id)} /></td>
                   </tr>
                   )
                 ))

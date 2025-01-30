@@ -56,3 +56,12 @@ export const getUser = async (userId) =>{
         throw error
     }
 }
+
+export const removeUser = async (userId) =>{
+    try {
+        const response = axiosInstance.delete(`api/users/${userId}/`)
+        return response
+    } catch (error) {
+        console.error('Error on deleting user data : ', error.response?.data || error)
+    }
+}

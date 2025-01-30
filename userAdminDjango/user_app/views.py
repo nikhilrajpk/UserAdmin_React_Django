@@ -49,13 +49,17 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, pk=None):
         try :
             user = CustomUser.objects.get(id=pk)
-            print("user :: ", user)
             serializer = UserSerializer(user)
-            print("serializer :: ", serializer)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error' : f"Error in fetching user data {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     
+    def delete(self, request, pk=None):
+        try:
+            CustomUser.objects.delete(id=pk)
+            return Response({"message" : "User deleted successfully"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error' : f"Error in deleting user {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
     
 # User Registration View
 class RegisterUserView(APIView):
